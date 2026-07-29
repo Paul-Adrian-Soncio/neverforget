@@ -14,18 +14,13 @@ export default function NavBar() {
           priority
         />
         <span className="font-handwritten text-2xl leading-none text-foreground">
-          NeverForget
+          <span className="sm:hidden">NF</span>
+          <span className="hidden sm:inline">NeverForget</span>
         </span>
       </Link>
       <nav className="flex items-center gap-6 font-serif text-sm text-muted">
         <Link href="/gallery" className="transition-colors hover:text-accent">
           Gallery
-        </Link>
-        <Link
-          href="/create"
-          className="rounded-sm border border-border-warm px-3 py-1.5 text-foreground transition-colors hover:border-accent hover:text-accent"
-        >
-          + Add a photo
         </Link>
       </nav>
     </header>
