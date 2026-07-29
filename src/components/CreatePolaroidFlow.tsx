@@ -5,9 +5,9 @@ import Cropper from "react-easy-crop";
 import type { Area, Point } from "react-easy-crop";
 import { useRouter } from "next/navigation";
 import { getCroppedImage } from "@/lib/crop-image";
-import { FILTER_PRESETS, getFilterById, getRandomFilter } from "@/lib/filters";
 import { usePolaroids } from "@/lib/polaroid-context";
 import PolaroidCard from "@/components/PolaroidCard";
+import FilterSwatchPicker from "@/components/FilterSwatchPicker";
 
 type Step = "upload" | "crop" | "filter" | "details";
 
@@ -52,10 +52,6 @@ export default function CreatePolaroidFlow() {
     setFilterId("original");
     setStep("filter");
   }, [rawImage, croppedAreaPixels]);
-
-  const shuffleFilter = useCallback(() => {
-    setFilterId((current) => getRandomFilter(current).id);
-  }, []);
 
   const handleSave = useCallback(() => {
     if (!croppedImage) return;
@@ -140,16 +136,18 @@ export default function CreatePolaroidFlow() {
       {step === "filter" && croppedImage && (
         <div className="flex w-full max-w-md flex-col items-center gap-6">
           <PolaroidCard imageDataUrl={croppedImage} filterId={filterId} />
-          <p className="font-serif text-xs uppercase tracking-widest text-muted">
-            {getFilterById(filterId).name}
-          </p>
+          <FilterSwatchPicker
+            imageDataUrl={croppedImage}
+            filterId={filterId}
+            onSelect={setFilterId}
+          />
           <div className="flex gap-3">
             <button
               type="button"
-              onClick={shuffleFilter}
-              className="rounded-sm border border-border-warm px-5 py-2 font-serif text-sm text-foreground hover:border-accent hover:text-accent"
+              onClick={() => setStep("crop")}
+              className="rounded-sm border border-border-warm px-5 py-2 font-serif text-sm text-muted hover:text-foreground"
             >
-              Try another look
+              Back
             </button>
             <button
               type="button"

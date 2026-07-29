@@ -82,13 +82,6 @@ export const FILTER_PRESETS: FilterPreset[] = [
   },
 ];
 
-export function getRandomFilter(excludeId?: string): FilterPreset {
-  const pool = excludeId
-    ? FILTER_PRESETS.filter((f) => f.id !== excludeId)
-    : FILTER_PRESETS;
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-
 export function getFilterById(id: string): FilterPreset {
   return FILTER_PRESETS.find((f) => f.id === id) ?? FILTER_PRESETS[0];
 }
