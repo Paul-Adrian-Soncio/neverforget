@@ -49,7 +49,7 @@ export default function CreatePolaroidFlow() {
     if (!rawImage || !croppedAreaPixels) return;
     const result = await getCroppedImage(rawImage, croppedAreaPixels);
     setCroppedImage(result);
-    setFilterId(getRandomFilter().id);
+    setFilterId("original");
     setStep("filter");
   }, [rawImage, croppedAreaPixels]);
 

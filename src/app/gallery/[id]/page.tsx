@@ -1,10 +1,11 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PolaroidCard from "@/components/PolaroidCard";
 import PolaroidBack from "@/components/PolaroidBack";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { usePolaroids } from "@/lib/polaroid-context";
 
 export default function PolaroidFocusPage({
@@ -15,6 +16,7 @@ export default function PolaroidFocusPage({
   const { id } = use(params);
   const { polaroids, loaded, removePolaroid } = usePolaroids();
   const router = useRouter();
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const polaroid = polaroids.find((p) => p.id === id);
 
   if (loaded && !polaroid) {
@@ -51,7 +53,7 @@ export default function PolaroidFocusPage({
         </Link>
         <button
           type="button"
-          onClick={handleDelete}
+          onClick={() => setConfirmingDelete(true)}
           className="font-serif text-sm text-muted hover:text-accent"
         >
           Remove
@@ -72,6 +74,15 @@ export default function PolaroidFocusPage({
           className="rotate-2 hover:rotate-0"
         />
       </div>
+
+      <ConfirmDialog
+        open={confirmingDelete}
+        title="Remove this memory?"
+        description="This photo and its notes will be deleted for good. This can't be undone."
+        confirmLabel="Remove"
+        onCancel={() => setConfirmingDelete(false)}
+        onConfirm={handleDelete}
+      />
     </main>
   );
 }
