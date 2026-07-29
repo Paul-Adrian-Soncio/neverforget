@@ -3,8 +3,7 @@
 import { use, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import PolaroidCard from "@/components/PolaroidCard";
-import PolaroidBack from "@/components/PolaroidBack";
+import PolaroidFlipCard from "@/components/PolaroidFlipCard";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { usePolaroids } from "@/lib/polaroid-context";
 
@@ -60,20 +59,13 @@ export default function PolaroidFocusPage({
         </button>
       </div>
 
-      <div className="flex w-full max-w-3xl flex-col items-center gap-10 sm:flex-row sm:items-start sm:justify-center">
-        <PolaroidCard
-          imageDataUrl={polaroid.imageDataUrl}
-          filterId={polaroid.filterId}
-          title={polaroid.title}
-          date={polaroid.date}
-          className="-rotate-2 hover:rotate-0"
-        />
-        <PolaroidBack
-          note={polaroid.note}
-          date={polaroid.date}
-          className="rotate-2 hover:rotate-0"
-        />
-      </div>
+      <PolaroidFlipCard
+        imageDataUrl={polaroid.imageDataUrl}
+        filterId={polaroid.filterId}
+        title={polaroid.title}
+        date={polaroid.date}
+        note={polaroid.note}
+      />
 
       <ConfirmDialog
         open={confirmingDelete}
