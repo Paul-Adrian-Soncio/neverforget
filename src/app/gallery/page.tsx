@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PolaroidCard from "@/components/PolaroidCard";
@@ -8,6 +9,12 @@ import { usePolaroids } from "@/lib/polaroid-context";
 export default function GalleryPage() {
   const { polaroids, loaded } = usePolaroids();
   const router = useRouter();
+  const [developingId] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    const id = window.sessionStorage.getItem("neverforget:developing");
+    if (id) window.sessionStorage.removeItem("neverforget:developing");
+    return id;
+  });
 
   return (
     <main className="flex flex-1 flex-col items-center px-4 py-12">
@@ -42,10 +49,12 @@ export default function GalleryPage() {
         {polaroids.map((polaroid) => (
           <PolaroidCard
             key={polaroid.id}
+            id={polaroid.id}
             imageDataUrl={polaroid.imageDataUrl}
             filterId={polaroid.filterId}
             title={polaroid.title}
             date={polaroid.date}
+            developing={polaroid.id === developingId}
             onClick={() => router.push(`/gallery/${polaroid.id}`)}
           />
         ))}

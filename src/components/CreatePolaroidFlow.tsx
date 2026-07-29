@@ -60,13 +60,14 @@ export default function CreatePolaroidFlow() {
   const handleSave = useCallback(() => {
     if (!croppedImage) return;
     setSaving(true);
-    addPolaroid({
+    const created = addPolaroid({
       imageDataUrl: croppedImage,
       filterId,
       title: title.trim(),
       date,
       note: note.trim(),
     });
+    window.sessionStorage.setItem("neverforget:developing", created.id);
     router.push("/gallery");
   }, [croppedImage, filterId, title, date, note, addPolaroid, router]);
 
